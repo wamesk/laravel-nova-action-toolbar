@@ -115,6 +115,22 @@ const V2_TO_V1 = {
   'x-mark': 'x',
 }
 
+/**
+ * v1 icons that Nova 4 has under the v2 name itself but that face another way. Heroicons
+ * v1 `paper-airplane` points up and reads like a warning triangle; v2 points right
+ * ("send"). Turning the v1 drawing keeps its stroke width in line with Nova's other icons.
+ */
+const V1_TURNED = {
+  'paper-airplane': 'nat-icon--turn-right',
+}
+
+/**
+ * The class that turns a v1 drawing to face like its v2 name, or null.
+ */
+export function heroiconClass(name) {
+  return V1_TURNED[name] || null
+}
+
 function registered(name) {
   const componentName = `HeroiconsOutline${upperFirst(camelCase(name))}`
 

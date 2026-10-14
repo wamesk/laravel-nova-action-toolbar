@@ -52,6 +52,9 @@ kontroluje `isNil`), takže sa žiaden súbor Novy nemení.
 - **Ikony:** Nova 4 má Heroicons v1 ako globálne komponenty (`HeroiconsOutlineDocumentAdd`).
   Názvy v2 (`document-plus`, `arrow-down-tray`) preloží `support/icons.js` na v1 dvojča, aby
   rovnaký PHP kód fungoval aj v Nove 5. Neznámy názov = žiadna ikona (+ `console.warn` v debug).
+  v1 kresba, ktorá mieri inam než v2 rovnakého mena (`paper-airplane` v1 mieri hore a pôsobí
+  ako výstražný trojuholník), sa otočí triedou z `V1_TURNED` — hrúbka čiary ostane ako pri
+  ostatných v1 ikonách Novy.
   Vlastné `<svg>` čistí `Icon::sanitize()` (whitelist elementov a atribútov).
 - **Úzka obrazovka:** `usePriorityPlus` meria `scrollWidth` panelu a skrýva tlačidlá
   (`hidden`) od najnižšej `priority`, pri zhode od posledného. Aby sa panel vôbec mohol

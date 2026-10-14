@@ -3,7 +3,7 @@
   <component
     v-else-if="component"
     :is="component"
-    class="nat-icon"
+    :class="['nat-icon', turned]"
     aria-hidden="true"
     width="24"
     height="24"
@@ -13,7 +13,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { heroiconComponent } from '../support/icons'
+import { heroiconClass, heroiconComponent } from '../support/icons'
 
 const props = defineProps({
   // { type: 'heroicon', name } | { type: 'svg', svg } — the svg is sanitized on the server.
@@ -23,4 +23,6 @@ const props = defineProps({
 const component = computed(() =>
   props.icon?.type === 'heroicon' ? heroiconComponent(props.icon.name) : null
 )
+
+const turned = computed(() => (props.icon?.type === 'heroicon' ? heroiconClass(props.icon.name) : null))
 </script>

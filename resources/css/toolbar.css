@@ -348,6 +348,8 @@
 .nat-icon--svg svg:not([fill]) { fill: currentColor; }
 .nat-inline-btn .nat-icon { width: 1.5rem; height: 1.5rem; }
 .nat-menu-item .nat-icon { width: 1.25rem; height: 1.25rem; color: var(--nat-muted); }
+/* A Heroicons v1 twin that faces another way than its v2 name (support/icons.js). */
+.nat-icon--turn-right { transform: rotate(90deg); }
 
 /* ⋯ in a table row: Nova's row trigger. */
 .nat-more--inline { padding: 0 0.5rem; color: var(--nat-inline-fg); }
