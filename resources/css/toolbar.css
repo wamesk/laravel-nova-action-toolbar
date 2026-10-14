@@ -359,3 +359,9 @@
 
 .nat-inline-btn[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
 .nat-inline-btn[aria-disabled="true"]:hover { color: var(--nat-inline-fg); }
+
+/* A row icon or ⋯ loading an action's form: a spinner in the icon's footprint. */
+.nat-inline-btn[aria-busy="true"],
+.nat-more[aria-busy="true"] { opacity: 1; cursor: progress; }
+.nat-inline-btn .nat-spinner,
+.nat-more .nat-spinner { margin: 0.25rem; }

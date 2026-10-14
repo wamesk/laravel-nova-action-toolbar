@@ -18,6 +18,7 @@
       :overflow-items="overflowItems"
       :trigger-dusk="triggerDusk"
       :inline="context === 'inline'"
+      :busy="moreBusy"
       @activate="item => $emit('activate', item)"
     >
       <template v-if="$slots.menu" #menu><slot name="menu" /></template>
@@ -39,6 +40,7 @@
       :overflow-items="overflowItems"
       :trigger-dusk="triggerDusk"
       :inline="context === 'inline'"
+      :busy="moreBusy"
       @activate="item => $emit('activate', item)"
     >
       <template v-if="$slots.menu" #menu><slot name="menu" /></template>
@@ -65,6 +67,8 @@ const props = defineProps({
   morePosition: { type: String, default: 'end' },
   responsive: { type: Boolean, default: false },
   triggerDusk: { type: String, default: null },
+  // The item whose action is loading; ⋯ shows it when the item is not a visible button.
+  busyKey: { type: String, default: null },
 })
 
 const slots = useSlots()
@@ -80,6 +84,12 @@ const { overflow } = usePriorityPlus(
 )
 
 const overflowItems = computed(() => props.items.filter(item => overflow.value.includes(item.key)))
+
+const moreBusy = computed(
+  () =>
+    props.busyKey !== null &&
+    !props.items.some(item => item.key === props.busyKey && !overflow.value.includes(item.key))
+)
 
 // ⋯ disappears when nothing is left in it.
 const showMore = computed(

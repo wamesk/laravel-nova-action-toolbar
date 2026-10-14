@@ -7,10 +7,12 @@
         :class="{ 'nat-more--inline': inline }"
         :dusk="triggerDusk"
         :aria-label="__('More actions')"
+        :aria-busy="busy ? 'true' : null"
         v-tooltip="__('Actions')"
         @click.stop
       >
-        <svg class="nat-more__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <span v-if="busy" class="nat-spinner" aria-hidden="true" />
+        <svg v-else class="nat-more__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -88,6 +90,8 @@ const props = defineProps({
   overflowItems: { type: Array, default: () => [] },
   triggerDusk: { type: String, default: null },
   inline: { type: Boolean, default: false },
+  // An action picked from this menu is loading its form.
+  busy: { type: Boolean, default: false },
 })
 
 // A heading without items under it is not drawn (Nova does the same).

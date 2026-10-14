@@ -63,6 +63,16 @@ kontroluje `isNil`), takže sa žiaden súbor Novy nemení.
   Keď sú už všetky tlačidlá v ⋯ a zvyšok (⋯, „Vytvoriť“, Novine ikony) sa stále nezmestí,
   dostane `.ml-auto` inline `min-width` presne na ten zvyšok — inak by „Vytvoriť“ na
   zozname širokom ako mobil vyšlo mimo obrazovky (opravené 2026-10-14).
+- **Akcia s poľami v riadku si formulár načíta pre ten riadok** (`support/useRowActionForm.js`,
+  4.0.1 / 5.0.1). Nova pečie akcie riadku aj s poľami do odpovede indexu, ktorá nemenuje žiadny
+  záznam — pole závislé od záznamu (výber faktúr, predvyplnená suma) by bolo prázdne a menu
+  riadku sa servera znova nespýta. Pred otvorením sa preto pýta `GET …/actions` s
+  `resourceId`, `editing=true`, `editMode=create` ako detail (+ `via*`), **bez `display`**, aby
+  sa našla aj akcia len pre riadok (`onlyInline()`). Novin `useActions` dostane props s akciou
+  z odpovede (`reactive` + `toRefs`). Len `context === 'inline'` a len akcia s `fields` —
+  inak žiaden request. Chyba = pečená akcia + `Nova.error`; 401/403/419 rieši Novin axios a
+  formulár sa neotvorí. Bez `async`/`await` a spreadu — Babel by pribalil generator runtime
+  a helpery do každého modulu.
 - **Rozloženie** `grouped` (predvolené, používateľ si vybral 2026-10-14) / `separate` je v
   `config/nova-action-toolbar.php`. ⋯ v riadku ostáva **na začiatku** ako v Nove, v hlavičke a
   na detaile je na konci.
