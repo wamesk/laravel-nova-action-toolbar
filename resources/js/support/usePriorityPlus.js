@@ -25,7 +25,12 @@ export function usePriorityPlus(root, items, enabled) {
 
     const group = element.querySelector(':scope > .nat-group')
     const buttons = Array.from(element.querySelectorAll('[data-nat-key]'))
+    const host = enabled() ? hostOf(element) : null
     buttons.forEach(button => (button.hidden = false))
+
+    if (host) {
+      host.style.minWidth = ''
+    }
 
     if (group) {
       group.hidden = false
@@ -57,6 +62,12 @@ export function usePriorityPlus(root, items, enabled) {
       }
     }
 
+    // Everything that can move is in ⋯ and the rest still does not fit: ⋯, the create
+    // button and Nova's own icons must stay whole, so the neighbour (search, title) shrinks.
+    if (host && element.scrollWidth > element.clientWidth + 1) {
+      host.style.minWidth = `${host.getBoundingClientRect().width + element.scrollWidth - element.clientWidth}px`
+    }
+
     markEnds(buttons)
 
     // With every button in ⋯ the strip disappears, and ⋯ looks like Nova's plain trigger.
@@ -72,6 +83,10 @@ export function usePriorityPlus(root, items, enabled) {
       overflow.value = list.map(item => item.key).filter(key => hidden.includes(key))
     }
   }
+
+  // The flex item of Nova's header that holds the toolbar (`.ml-auto` on the index and the
+  // detail). The toolbar's own wrapper is `display: contents`, so it is one level higher.
+  const hostOf = element => element.closest('.nat-action-dropdown')?.parentElement ?? null
 
   // Layout B rounds only the outer corners of the visible run of buttons.
   const markEnds = buttons => {
@@ -106,6 +121,12 @@ export function usePriorityPlus(root, items, enabled) {
   onBeforeUnmount(() => {
     cancelAnimationFrame(frame)
     observer?.disconnect()
+
+    const host = root.value ? hostOf(root.value) : null
+
+    if (host) {
+      host.style.minWidth = ''
+    }
   })
 
   return { overflow, relayout: layout }
