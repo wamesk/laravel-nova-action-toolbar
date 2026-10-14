@@ -103,7 +103,7 @@ zostavený zo zdrojov 5.11.1 — súbory, ktoré sa z Novy kompilujú (`useActio
 | Hlavička zoznamu | standalone \|\| create \|\| relate | `hasResourceActionControls` (5.11 áno, 5.6.3 nie — tam starý vzorec) |
 | `ServingNova` v testoch | `new ServingNova($request)` | `new ServingNova($app, $request)` |
 
-Oprava, ktorá platí pre obe Novy, ide najprv do `4.x` a do `main` sa zlúči.
+Oprava, ktorá platí pre obe Novy, ide najprv do `4.x` a do `main` (Nova 5) sa zlúči.
 
 V `wame-reality` sú navyše `tests/Feature/Contract/ContractActionToolbarTest.php` a Cypress
 `cypress/e2e/contract.cy.js`.
