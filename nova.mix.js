@@ -36,6 +36,8 @@ class NovaExtension {
   webpackConfig(webpackConfig) {
     webpackConfig.externals = {
       vue: 'Vue',
+      // Nova 5 ships Button, Icon, Badge, Checkbox and Loader as window.LaravelNovaUi.
+      'laravel-nova-ui': 'LaravelNovaUi',
     }
 
     webpackConfig.resolve.alias = {

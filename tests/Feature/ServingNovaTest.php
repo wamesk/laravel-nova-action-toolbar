@@ -40,7 +40,7 @@ it('registers nothing with Nova before Nova serves a page', function () {
 });
 
 it('registers the script, the style and the translations when Nova serves a page', function () {
-    event(new ServingNova(request()));
+    event(new ServingNova(app(), request()));
 
     expect(collect(Nova::$scripts)->map->name()->all())->toContain('nova-action-toolbar')
         ->and(collect(Nova::$styles)->map->name()->all())->toContain('nova-action-toolbar')
@@ -50,7 +50,7 @@ it('registers the script, the style and the translations when Nova serves a page
 it('hands the browser the layout and the resource controls', function () {
     Nova::$resources = [Invoice::class];
 
-    event(new ServingNova(request()));
+    event(new ServingNova(app(), request()));
 
     $variables = (Nova::$jsonVariables['actionToolbar'])();
 
@@ -61,7 +61,7 @@ it('hands the browser the layout and the resource controls', function () {
 it('reads the layout from the config and falls back to grouped', function (?string $configured, string $layout) {
     config(['nova-action-toolbar.layout' => $configured]);
 
-    event(new ServingNova(request()));
+    event(new ServingNova(app(), request()));
 
     expect((Nova::$jsonVariables['actionToolbar'])()['layout'])->toBe($layout);
 })->with([

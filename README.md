@@ -13,7 +13,7 @@ and the built-in controls stay where Nova puts them.
 *Screenshots come from a Slovak application.*
 
 - **Button, icon or menu** per action and per place (`on: 'index' | 'inline' | 'detail'`).
-- **Icons:** a [Heroicons](https://heroicons.com) name or your own `<svg>`.
+- **Icons:** a [Heroicons](https://heroicons.com) v2 name or your own `<svg>`.
 - **Styles:** `default`, `primary`, `outline`, `danger`, `ghost`, or your own text,
   background and border colours — each with a light and a dark variant.
 - **Two layouts:** buttons in one grouped strip (default) or as separate buttons.
@@ -25,7 +25,7 @@ and the built-in controls stay where Nova puts them.
 
 | Version | Nova | Branch |
 |---|---|---|
-| 5.x | 5.x | `main` |
+| 5.x | 5.x (built against 5.11, tested on 5.6) | `main` |
 | 4.x | 4.x (tested on 4.35) | `4.x` |
 
 The PHP API is the same on both versions.
@@ -33,6 +33,7 @@ The PHP API is the same on both versions.
 ## Installation
 
 ```bash
+composer require wamesk/laravel-nova-action-toolbar:^5.0   # Nova 5
 composer require wamesk/laravel-nova-action-toolbar:^4.0   # Nova 4
 ```
 

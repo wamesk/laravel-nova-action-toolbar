@@ -3,6 +3,7 @@
     v-if="resource"
     context="detail"
     :responsive="true"
+    :resource="resource"
     :actions="actions"
     :via-resource="viaResource"
     :via-resource-id="viaResourceId"
@@ -16,21 +17,24 @@
   />
 
   <DeleteResourceModal
-    :show="deleteModalOpen"
     mode="delete"
+    :resource-name="resourceName"
+    :show="deleteModalOpen"
     @close="closeDeleteModal"
     @confirm="confirmDelete"
   />
 
   <RestoreResourceModal
+    :resource-name="resourceName"
     :show="restoreModalOpen"
     @close="closeRestoreModal"
     @confirm="confirmRestore"
   />
 
   <DeleteResourceModal
-    :show="forceDeleteModalOpen"
     mode="force delete"
+    :resource-name="resourceName"
+    :show="forceDeleteModalOpen"
     @close="closeForceDeleteModal"
     @confirm="confirmForceDelete"
   />
@@ -50,7 +54,7 @@ import { controlSettings } from '../support/config'
  * Drop-in replacement for Nova's DetailActionDropdown.
  *
  * The delete / restore / force delete flow (modals, toasts, redirects) is Nova's own
- * code, kept as Nova 4.35 ships it. Only the menu is built from data, so each built-in
+ * code, kept as Nova 5 ships it. Only the menu is built from data, so each built-in
  * control can move to a button or an icon. View and Edit are drawn by Nova's detail
  * header next to this component; a moved one is hidden and clicked through.
  */
@@ -129,7 +133,7 @@ export default {
         resource.authorizedToDelete &&
           !resource.softDeleted &&
           controlItem('delete', this.settings.delete, 'detail', {
-            label: this.__('Delete Resource'),
+            label: this.__('Delete :resource', { resource: this.resourceInformation.singularLabel }),
             icon: CONTROL_ICONS.delete,
             dusk: 'open-delete-modal-button',
             onClick: () => this.openDeleteModal(),
@@ -138,7 +142,7 @@ export default {
         resource.authorizedToRestore &&
           resource.softDeleted &&
           controlItem('restore', this.settings.restore, 'detail', {
-            label: this.__('Restore Resource'),
+            label: this.__('Restore :resource', { resource: this.resourceInformation.singularLabel }),
             icon: CONTROL_ICONS.restore,
             dusk: 'open-restore-modal-button',
             onClick: () => this.openRestoreModal(),
@@ -146,7 +150,7 @@ export default {
 
         resource.authorizedToForceDelete &&
           controlItem('forceDelete', this.settings.forceDelete, 'detail', {
-            label: this.__('Force Delete Resource'),
+            label: this.__('Force Delete :resource', { resource: this.resourceInformation.singularLabel }),
             icon: CONTROL_ICONS.forceDelete,
             dusk: 'open-force-delete-modal-button',
             onClick: () => this.openForceDeleteModal(),
@@ -198,7 +202,7 @@ export default {
       return this.natives[name]?.present ? item : null
     },
 
-    // ↓ Nova 4.35 DetailActionDropdown, unchanged.
+    // ↓ Nova 5 DetailActionDropdown, unchanged.
 
     async confirmDelete() {
       this.deleteResources([this.resource], response => {

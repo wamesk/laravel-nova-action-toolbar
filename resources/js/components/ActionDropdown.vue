@@ -18,10 +18,10 @@
     <component
       v-if="responseModalVisible"
       :show="responseModalVisible"
-      :is="actionResponseData?.modal"
+      :is="actionModalReponseData?.component"
       @confirm="handleResponseModalConfirm"
       @close="handleResponseModalClose"
-      :data="actionResponseData"
+      :data="actionModalReponseData?.payload ?? {}"
     />
 
     <ActionToolbar
@@ -59,6 +59,7 @@ import { useIndexOwner } from '../support/owner'
 const emitter = defineEmits(['actionExecuted'])
 
 const props = defineProps({
+  resource: {},
   resourceName: {},
   viaResource: {},
   viaResourceId: {},
@@ -96,7 +97,7 @@ const {
   selectedActionKey,
   working,
   executeAction,
-  actionResponseData,
+  actionModalReponseData,
 } = useActions(props, emitter, store)
 
 const resolvedContext = computed(() => props.context || 'index')

@@ -2,6 +2,7 @@
   <ActionDropdown
     context="inline"
     more-position="start"
+    :resource="resource"
     :actions="actions"
     :endpoint="endpoint"
     :via-resource="viaResource"

@@ -32,7 +32,7 @@ import { useIndexOwner } from '../support/owner'
  * Nova's create button, plus — when a resource pins actions on the index — the whole
  * header toolbar in front of it.
  *
- * Nova 4 renders its header action dropdown only when the resource has standalone
+ * Nova renders its header action dropdown only when the resource has standalone
  * actions, and passes it only those. A bulk action shown as a button needs the selected
  * rows and must be visible (disabled) before anything is selected, so the toolbar lives
  * here, next to the create button that the header always renders, and reads the index
