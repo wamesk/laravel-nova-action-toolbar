@@ -3,7 +3,7 @@
   "description": "Choose per Laravel Nova action how it is shown: a button, an icon or the ⋯ menu — on the index, in table rows and on the detail.",
   "type": "library",
   "license": "proprietary",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "repositories": [
     {
       "type": "composer",

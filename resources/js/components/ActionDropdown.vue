@@ -31,6 +31,7 @@
       :more-position="morePosition"
       :responsive="responsive"
       :trigger-dusk="triggerDuskAttribute"
+      :busy-key="loadingKey ? `action:${loadingKey}` : null"
       @activate="activate"
     >
       <template v-if="$slots.menu" #menu><slot name="menu" /></template>
@@ -40,13 +41,14 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, reactive, toRefs } from 'vue'
 import { useStore } from 'vuex'
 import { useActions } from '@/composables/useActions'
 import { useLocalization } from '@/composables/useLocalization'
 import ActionToolbar from './ActionToolbar.vue'
 import { BUTTON, ICON, displayOf, hasPinned, isPinned } from '../support/placement'
 import { useIndexOwner } from '../support/owner'
+import { useRowActionForm } from '../support/useRowActionForm'
 
 /**
  * Drop-in replacement for Nova's ActionDropdown.
@@ -85,6 +87,16 @@ const store = useStore()
 const { __ } = useLocalization()
 const owner = useIndexOwner()
 
+// In a table row, an action with fields gets its form loaded for that row before it
+// opens; Nova's runner then works with the loaded action instead of the baked one.
+const {
+  actions: runnerActions,
+  loadingKey,
+  needsRowForm,
+  load: loadRowForm,
+} = useRowActionForm(props)
+const runnerProps = reactive(Object.assign(toRefs(props), { actions: runnerActions }))
+
 const {
   errors,
   actionModalVisible,
@@ -97,7 +109,7 @@ const {
   working,
   executeAction,
   actionResponseData,
-} = useActions(props, emitter, store)
+} = useActions(runnerProps, emitter, store)
 
 const resolvedContext = computed(() => props.context || 'index')
 
@@ -133,7 +145,9 @@ const actionItem = action => {
     priority: action.toolbar?.priority ?? 0,
     disabled: action.authorizedToRun === false,
     disabledReason: bulk && selectionIsEmpty.value ? __('Select at least one row first') : null,
-    busy: working.value && selectedActionKey.value === action.uriKey,
+    busy:
+      (working.value && selectedActionKey.value === action.uriKey) ||
+      loadingKey.value === action.uriKey,
     dusk: `${action.uriKey}-toolbar-button`,
   }
 }
@@ -175,9 +189,16 @@ const sections = computed(() => [
 ])
 
 const handleClick = action => {
-  if (action.authorizedToRun !== false) {
-    handleActionClick(action.uriKey)
+  if (action.authorizedToRun === false || loadingKey.value !== null) {
+    return
   }
+
+  if (!needsRowForm(action)) {
+    handleActionClick(action.uriKey)
+    return
+  }
+
+  loadRowForm(action).then(open => open && handleActionClick(action.uriKey))
 }
 
 const activate = item => {

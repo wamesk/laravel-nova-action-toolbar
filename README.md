@@ -119,6 +119,24 @@ modal as the ⋯ menu. The action leaves Nova's bulk select, so it is never offe
 
 ![The bulk button after three rows are selected](docs/screenshots/index-selected.png)
 
+### Actions with fields in a table row
+
+Nova puts a row's actions, fields included, into the index response — a request that
+names no record. An action whose fields depend on the record (select options, a pre-filled
+amount) would open from a row with empty fields. So when an action **with fields** is
+picked in a row (icon, button or ⋯), the toolbar first asks Nova's actions endpoint for that
+one row, the way the detail page does, and opens the form with the answer:
+
+```
+GET /nova-api/{resource}/actions?resourceId={id}&editing=true&editMode=create
+    [&viaResource=…&viaResourceId=…&viaRelationship=…]
+```
+
+In `fields()`, read the record from `$request->resourceId`, as on the detail page. The
+icon (or ⋯) shows a spinner while the form loads. If the request fails, the form opens as
+Nova sent it with the page and an error toast says so. Actions without fields, the index
+toolbar and the detail page send no extra request.
+
 ## Built-in controls
 
 Add a static `toolbarControls()` method to a Nova resource. Each control takes the same

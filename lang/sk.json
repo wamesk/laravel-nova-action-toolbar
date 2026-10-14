@@ -1,4 +1,5 @@
 {
     "More actions": "Ďalšie akcie",
-    "Select at least one row first": "Najprv vyberte aspoň jeden riadok"
+    "Select at least one row first": "Najprv vyberte aspoň jeden riadok",
+    "The form of this action could not be loaded for this row.": "Formulár akcie sa pre tento riadok nepodarilo načítať."
 }
