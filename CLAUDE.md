@@ -55,7 +55,10 @@ kontroluje `isNil`), takže sa žiaden súbor Novy nemení.
   Vlastné `<svg>` čistí `Icon::sanitize()` (whitelist elementov a atribútov).
 - **Úzka obrazovka:** `usePriorityPlus` meria `scrollWidth` panelu a skrýva tlačidlá
   (`hidden`) od najnižšej `priority`, pri zhode od posledného. Aby sa panel vôbec mohol
-  zúžiť, CSS cez `:has()` dá Novinmu `.ml-auto` kontajneru `flex: 1; min-width: 0`.
+  zúžiť, CSS cez `:has()` dá Novinmu `.ml-auto` kontajneru `flex: 0 1 auto; min-width: 0`.
+  Keď sú už všetky tlačidlá v ⋯ a zvyšok (⋯, „Vytvoriť“, Novine ikony) sa stále nezmestí,
+  dostane `.ml-auto` inline `min-width` presne na ten zvyšok — inak by „Vytvoriť“ na
+  zozname širokom ako mobil vyšlo mimo obrazovky (opravené 2026-10-14).
 - **Rozloženie** `grouped` (predvolené, používateľ si vybral 2026-10-14) / `separate` je v
   `config/nova-action-toolbar.php`. ⋯ v riadku ostáva **na začiatku** ako v Nove, v hlavičke a
   na detaile je na konci.
@@ -80,6 +83,8 @@ npm ci && npm run production   # dist/ sa commituje — build proti Nove z vendo
 aplikácie, ktorá má balík v podadresári. `dist/` na vetve `4.x` musí byť z Novy 4, na `main`
 z Novy 5 — iná major verzia tam nesmie skončiť. `webpack` je pripnutý na **5.89.0**
 (laravel-mix 6).
+
+Oprava, ktorá platí pre obe Novy, ide najprv do `4.x` a do `main` (Nova 5) sa zlúči.
 
 V `wame-reality` sú navyše `tests/Feature/Contract/ContractActionToolbarTest.php` a Cypress
 `cypress/e2e/contract.cy.js`.
